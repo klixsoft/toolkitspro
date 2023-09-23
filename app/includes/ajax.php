@@ -73,7 +73,7 @@ function allsmarttools_update_site_settings(){
 
         $settingskey = trim($_POST['dataof']);
         if( update_settings($settingskey, $_POST['settings']) ){
-            do_action("tkp/update/setttings", $settingskey);
+            do_action("tkp/update/setttings", $settingskey, $_POST['settings']);
             $output = array(
                 "success" => true,
                 "message" => "Settings updated successfully!!!"
@@ -873,6 +873,108 @@ function tkp_update_update_paypal_payments_status(){
             "message" => "Invalid Subscription Information!!!"
         ));
     }
+}
+
+add_action("ajax/req/plugin_action", "tkp_plugins_plugin_action");
+function tkp_plugins_plugin_action(){
+    $plugin = trim(@$_POST['plugin']);
+    $action = trim(@$_POST['actionName']);
+
+    if( empty( $plugin ) || empty( $action ) ){
+        ast_send_json(array(
+            "success" => false,
+            "message" => "Missing Plugin Name or Action Name."
+        ));
+    }
+
+    if( ! file_exists( PLUGINS_PATH . $plugin . "/functions.php" ) ){
+        ast_send_json(array(
+            "success" => false,
+            "message" => "Plugin Doesn't Exists!!!"
+        ));
+    }else{
+        require_once PLUGINS_PATH . $plugin . "/functions.php";
+    }
+
+    //start action
+    $activePlugins = (array) get_settings("active_plugins");
+    if( $action == 'deactivate' ){
+        if( isset($activePlugins[$plugin]) && isset($activePlugins[$plugin]['status']) ){
+            $activePlugins[$plugin]['status'] = "inactive";
+        }else{
+            $activePlugins[$plugin] = array(
+                "status" => "inactive",
+                "last_updated" => date("Y-m-d H:i:s")
+            );
+        }
+
+        do_action("tkp/plugin/$plugin/deactivate", $plugin);
+        if( update_settings("active_plugins", $activePlugins) ){
+            ast_send_json(array(
+                "success" => true,
+                "message" => "Plugin deactivated successfully!!!"
+            ));
+        }else{
+            ast_send_json(array(
+                "success" => false,
+                "message" => "Unable to deactivate the plugin!!!"
+            ));
+        }
+    }else if( $action == 'activate' ){
+        $activePlugins[$plugin] = array(
+            "status" => "active",
+            "last_updated" => date("Y-m-d H:i:s")
+        );
+
+        do_action("tkp/plugin/$plugin/activate", $plugin);
+        if( update_settings("active_plugins", $activePlugins) ){
+            ast_send_json(array(
+                "success" => true,
+                "message" => "Plugin activated successfully!!!"
+            ));
+        }else{
+            ast_send_json(array(
+                "success" => false,
+                "message" => "Unable to activated the plugin!!!"
+            ));
+        }
+    }else if( $action == 'remove' ){
+        if( isset( $activePlugins[$plugin] ) ){
+            unset($activePlugins[$plugin]);
+
+            update_settings("active_plugins", $activePlugins);
+
+            do_action("tkp/plugin/$plugin/remove", $plugin);
+            try {
+                if( FileSystem::delete(PLUGINS_PATH . $plugin . "/", true) ){
+                    ast_send_json(array(
+                        "success" => true,
+                        "message" => "Plugin removed successfully!!!"
+                    ));
+                }
+                
+                ast_send_json(array(
+                    "success" => false,
+                    "message" => "Unable to remove the plugin!!!"
+                ));
+            } catch (\ErrorException $th) {
+                ast_send_json(array(
+                    "success" => false,
+                    "message" => $th->getMessage()
+                ));
+            } catch (\Exception $th) {
+                ast_send_json(array(
+                    "success" => false,
+                    "message" => $th->getMessage()
+                ));
+            }
+        }
+    }
+
+    ast_send_json(array(
+        "success" => false,
+        "message" => "Inavlid Plugin Action Name!!!"
+    ));
 }
 
 //ajax table

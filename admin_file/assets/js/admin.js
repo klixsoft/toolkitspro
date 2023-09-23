@@ -283,6 +283,11 @@ $(document).ready(function () {
         });
     }
 
+    const datadatatable = $(document).find(".datatable");
+    if (datadatatable.length > 0) {
+        datadatatable.DataTable();
+    }
+
     const tabledatatable = $(document).find(".table-datatable");
     if (tabledatatable.length > 0) {
 
@@ -312,7 +317,6 @@ $(document).ready(function () {
             ]
         });
     }
-
 
     $(document.body).on("clear_message", function (e, data) {
         const errorcontainer = $(document).find(".has_messages");
@@ -1271,6 +1275,41 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     alertMessage("success", "Paypal Data Successfully!!!");
+                } else {
+                    alertMessage("error", response.message);
+                }
+            },
+            complete: function () {
+                btnEle.attr("disabled", false).html(prevHTML);
+            }
+        });
+    });
+
+    $(document).on("click", ".pluginAction", function () {
+        const btnEle = $(this);
+        const prevHTML = btnEle.html();
+
+        $.ajax({
+            type: "POST",
+            url: allsmarttools.ajaxurl,
+            data: {
+                action: "plugin_action",
+                plugin : $(this).data("plugin"),
+                actionName : $(this).data("action")
+            },
+            dataType: "json",
+            beforeSend: function () {
+                btnEle.attr("disabled", true).html("Please Wait . . .");
+            },
+            error: function (error) {
+                alertMessage("error", "Unable to perform this action. Please try again!!!");
+            },
+            success: function (response) {
+                if (response.success) {
+                    alertMessage("success", response.message);
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500);
                 } else {
                     alertMessage("error", response.message);
                 }

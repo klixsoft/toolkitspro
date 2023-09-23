@@ -3,7 +3,7 @@
  * Core class used to implement Users functionality.
  *
  * @since 1.0
- * @package AllSmartTools
+ * @package ToolkitsPRO
  * @subpackage Users
  */
 
@@ -58,7 +58,7 @@ class Users {
     }
 
     public function roles(){
-        return apply_filters("allsmarttools/roles", $this->roles);
+        return apply_filters("ToolkitsPRO/roles", $this->roles);
     }
 
     private function get_meta_details(){

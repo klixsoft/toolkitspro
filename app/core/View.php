@@ -52,7 +52,7 @@ class View{
         
         if( self::is_admin() ){
             $adminpath = "admin_file/template/" . $path;
-            if( file_exists( get_site_path( $adminpath ) ) ){
+            if( file_exists( get_site_path( $adminpath . ".php" ) ) ){
                 $path = $adminpath;
             }
         }else if( self::is_auth() ){

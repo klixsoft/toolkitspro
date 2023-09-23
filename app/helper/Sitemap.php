@@ -3,7 +3,7 @@
  * Core class used to generate Sitemap functionality.
  *
  * @since 1.0
- * @package AllSmartTools
+ * @package ToolkitsPRO
  * @subpackage Sitemap
  */
 

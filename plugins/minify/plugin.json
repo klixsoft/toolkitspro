@@ -1,6 +1,6 @@
 {
-    "name" : "Payment System",
-    "description" : "Ever look at the HTML markup of your website and notice how sloppy and amateurish it looks? The Minify HTML plugin cleans up sloppy looking markup and minifies, which also speeds up download time.",
+    "name" : "Minification",
+    "description" : "<p>Script Magnification Plugin is a powerful utility designed to enhance the performance and user experience of your website or web application. This plugin offers a simple yet effective solution for optimizing your JavaScript and other script files, resulting in faster load times and improved overall efficiency.</p><ul><li>CSS Minifcation</li><li>Javascript Minifcation</li><li>HTML Minifcation</li><li>Improved Page Load Speed<li></ul>",
     "version" : "1.0",
     "author" : [
         {

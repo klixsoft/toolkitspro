@@ -1,4 +1,50 @@
 <?php
+use AST\View;
+use AST\FileSystem;
+use Phroute\Phroute\RouteCollector;
+
+add_action("tkp/plugin/comment/activate", function(){
+    global $db;
+
+    $createTable = "CREATE TABLE IF NOT EXISTS `{$db->prefix}comments` (
+        `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        `post` int(11) NOT NULL,
+        `user` int(11) NOT NULL,
+        `review` int(11) NOT NULL DEFAULT 5,
+        `message` text NOT NULL,
+        `parent` int(11) NOT NULL DEFAULT 0,
+        `status` varchar(50) NOT NULL DEFAULT 'pending',
+        `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+    $db->rawQuery($createTable, null, false);
+
+    if($db->getLastErrno() !== 0){
+        ast_send_json(array(
+            "success" => true,
+            "message" => "Unable to active plugin. Please try again!!!",
+            "error" => $db->getLastError()
+        ));
+    }
+});
+
+add_action("ast/admin/route", "tkp_comments_admin_menu");
+function tkp_comments_admin_menu(RouteCollector $router){
+    $router->get("comments/", function(){
+        return View::render("plugins.comment.template.index");
+    });
+}
+
+add_filter("ast/routers/config", "tkp_comments_filter_admin_menu");
+function tkp_comments_filter_admin_menu($menus){
+    $menus['admin'] = addArrayAfterKey($menus['admin'], "media", "comments", array(
+        "title" => "Comments",
+        "link" => "comments/",
+        "path" => "comments.php",
+        "icon" => "las la-comments",
+        "child" => array()
+    ));
+    return $menus;
+}
 
 add_action("ast/after/tool/descrition", "include_review_system_template", 10, 1);
 add_action("ast/after/post/descrition", "include_review_system_template", 10, 1);
@@ -409,4 +455,72 @@ function toolkitspro_update_comment_icon_with_colors($settingskey){
             file_put_contents($outputFile, $content);
         }
     }
+}
+
+add_action("ajax/req/ast_get_all_comments_admin", "toolkitspro_ast_get_all_comments_admin");
+function toolkitspro_ast_get_all_comments_admin(){
+    global $db;
+
+    $columnIndex = isset($_POST['order'][0]['column']) ? intval($_POST['order'][0]['column']) : 0;
+    $columnSortOrder = isset($_POST['order'][0]['dir']) ? $_POST['order'][0]['dir'] : "desc";
+
+    $searchValue = isset( $_POST['search']['value'] ) ? trim($_POST['search']['value']) : "";
+    if( ! empty( $searchValue ) ){
+        $db->where("(`message` LIKE ?) ", array("%$searchValue%"));
+    }
+
+    $startfrom = intval($_POST['start']);
+    $perpage = intval($_POST['length']);
+
+    $page = $startfrom > 0 ? ($startfrom / $perpage) + 1 : 1;
+    $db->pageLimit = $perpage;
+    
+    $columns = array("user", "message", "post", "date");
+    if( $columnIndex >= 0 ){
+        $db->orderBy($columns[$columnIndex], $columnSortOrder);
+    }
+    $products = $db->arraybuilder()->paginate("comments", $page);
+
+    $output = array(
+        "draw"		=>	intval($_POST["draw"]),
+        "recordsTotal"	=>	intval($db->totalCount),
+        "recordsFiltered"	=>	intval($db->totalCount),
+        "data"		=>	[]
+    );
+
+    $data = array();
+    foreach($products as $toolindex => $pppp){
+
+        $user = get_user($pppp['user']);
+        $post = get_post_by("id", $pppp['post']);
+
+        if( $user && $post ){
+            $userHTML = sprintf('<a href="%s" target="_blank">
+                <span class="name">%s</span>
+                <span class="link">%s</span>
+            </a>', get_admin_url("user/edit/$user->id/"), $user->name, $user->email);
+
+            $postURL = get_unknown_post_url($post->id);
+            $postHTML = sprintf('<a href="%s" target="_blank">
+                <span class="name">%s</span>
+                <span class="link">View Post</span>
+            </a>', $postURL, $post->title);
+
+            $actions = sprintf('<div class="table_actions"><button data-id="%d" class="btn btn-success editcomments"><i class="las la-cog"></i></button>', $pppp['id']);
+            $actions .= sprintf('<button class="btn btn-danger deletedatafromdb" data-from="comments" data-id="%d"><i class="las la-trash"></i></button>', $pppp['id']);
+            $actions .= sprintf('<a class="btn btn-warning viewcomments" href="%s" target="_blank"><i class="las la-eye"></i></a></div>', $postURL . "#comment_" . $pppp['id']);
+
+            $data[] = array(
+                $userHTML,
+                sprintf('<div class="line-5 comment-response">%s</div>', $pppp['message']),
+                $postHTML,
+                $pppp['date'],
+                $actions
+            );
+        }
+    }
+    
+    $output['data'] = $data;
+    echo json_encode($output);
+    die();
 }

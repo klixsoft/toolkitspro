@@ -23,7 +23,7 @@ function handle_404_page( $th ){
         get_footer_file();
     }else if( View::is_front() ){
         do_action("add_scripts");
-        $metainfo = apply_filters("ast/meta/info", "custom", (object) array(
+        $metainfo = apply_filters("ast/meta/info", "", "custom", (object) array(
             "title" => "404 Page Not Found - %sitename%",
             "description" => "The page you are looking for might have been removed has it's name changed or temporarily unavailable.",
             "link" => get_site_url("contact/")

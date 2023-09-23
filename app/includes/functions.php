@@ -627,6 +627,22 @@ if( ! function_exists( "get_current_id" ) ){
     }
 }
 
+if( ! function_exists( "current_user_has_role" ) ){
+
+    /**
+     * Get current user have current cole or not
+     */
+    function current_user_has_role($role){
+        if( $role == 'admin' ) $role = "administrator";
+        
+        $user = Users::instance()->get();
+        if( @$user->role ){
+            return str_contains( $user->role, $role );
+        }
+        return false;
+    }
+}
+
 
 if( ! function_exists( "ast_get_current_user" ) ){
 
@@ -2576,7 +2592,7 @@ function render_menu_template( $menu, $count ){
 }
 
 function render_menu_template_front_mobile($menus){
-    if( ! empty( $menus ) ) return false;
+    if( empty( $menus ) ) return false;
     
     foreach($menus as $k => $menu){
         if( isset( $menu['child'] ) && is_array($menu['child']) ){
@@ -2594,7 +2610,7 @@ function render_menu_template_front_mobile($menus){
 }
 
 function render_menu_template_front($menus){
-    if( ! empty( $menus ) ) return false;
+    if( empty( $menus ) ) return false;
 
     foreach($menus as $k => $menu){
         if( isset( $menu['child'] ) && is_array($menu['child']) ){
@@ -3313,4 +3329,29 @@ function update_api_limit($apikey=""){
 
 function get_account_url($path=""){
     return get_site_url(parse_route_constants("account") . "/" . $path);
+}
+
+function insertIntoArray(&$array, $element, $index) {
+    if (!is_array($array)) {
+        return $array;
+    }
+
+    if (!isset($array[$index])) {
+        $array[] = $element;
+    } else {
+        array_splice($array, $index, 0, [$element]);
+    }
+}
+
+function addArrayAfterKey($array, $keyToInsertAfter, $newKey, $newValue) {
+    $newArray = array();
+
+    foreach ($array as $key => $value) {
+        $newArray[$key] = $value;
+        if ($key === $keyToInsertAfter) {
+            $newArray[$newKey] = $newValue;
+        }
+    }
+
+    return $newArray;
 }

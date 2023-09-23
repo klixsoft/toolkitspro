@@ -3,7 +3,7 @@
  * Core class used to implement language functionality.
  *
  * @since 1.0
- * @package AllSmartTools
+ * @package ToolkitsPRO
  * @subpackage Language
  */
 
@@ -43,7 +43,7 @@ class Language {
         if( file_exists( $path ) ){
             $langData = file_get_contents( $path );
             if( isJson( $langData ) ){
-                $this->lndata = apply_filters( "AllSmartTools\Language\data", $langData, $this->active );
+                $this->lndata = apply_filters( "ToolkitsPRO\Language\data", $langData, $this->active );
             }else{
                 throw new \Exception("Active Language ({$this->active}) contain invalid language data. Please contact support team.");
             }
@@ -68,7 +68,7 @@ class Language {
     public function set($name) {
 
         if(in_array($name, $this->get_languages())) {
-            $this->active = apply_filters( "AllSmartTools\Language", $name );
+            $this->active = apply_filters( "ToolkitsPRO\Language", $name );
             $this->getLangData();
         }else{
             return new \Exception("Provide Language ($name) is invalid language format.");

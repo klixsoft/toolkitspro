@@ -80,8 +80,8 @@ function ast_get_all_users_admin(){
     die();
 }
 
-add_action("ajax/req/ast_get_all_posts_admin", "allsmarttools_get_all_posts_admin");
-function allsmarttools_get_all_posts_admin(){
+add_action("ajax/req/ast_get_all_posts_admin", "toolkitspro_get_all_posts_admin");
+function toolkitspro_get_all_posts_admin(){
     global $db;
 
     $columnIndex = isset($_POST['order'][0]['column']) ? intval($_POST['order'][0]['column']) : -1;
@@ -252,8 +252,8 @@ function ast_get_all_plans_admin(){
     die();
 }
 
-add_action("ajax/req/ast_get_all_posts_category", "allsmarttools_get_all_posts_category");
-function allsmarttools_get_all_posts_category(){
+add_action("ajax/req/ast_get_all_posts_category", "toolkitspro_get_all_posts_category");
+function toolkitspro_get_all_posts_category(){
     global $db;
 
     $columnIndex = isset($_POST['order'][0]['column']) ? intval($_POST['order'][0]['column']) : -1;
@@ -413,74 +413,6 @@ function ast_get_all_tools(){
             $sort,
             $actions
         );
-    }
-    
-    $output['data'] = $data;
-    echo json_encode($output);
-    die();
-}
-
-add_action("ajax/req/ast_get_all_comments_admin", "toolkitspro_ast_get_all_comments_admin");
-function toolkitspro_ast_get_all_comments_admin(){
-    global $db;
-
-    $columnIndex = isset($_POST['order'][0]['column']) ? intval($_POST['order'][0]['column']) : 0;
-    $columnSortOrder = isset($_POST['order'][0]['dir']) ? $_POST['order'][0]['dir'] : "desc";
-
-    $searchValue = isset( $_POST['search']['value'] ) ? trim($_POST['search']['value']) : "";
-    if( ! empty( $searchValue ) ){
-        $db->where("(`message` LIKE ?) ", array("%$searchValue%"));
-    }
-
-    $startfrom = intval($_POST['start']);
-    $perpage = intval($_POST['length']);
-
-    $page = $startfrom > 0 ? ($startfrom / $perpage) + 1 : 1;
-    $db->pageLimit = $perpage;
-    
-    $columns = array("user", "message", "post", "date");
-    if( $columnIndex >= 0 ){
-        $db->orderBy($columns[$columnIndex], $columnSortOrder);
-    }
-    $products = $db->arraybuilder()->paginate("comments", $page);
-
-    $output = array(
-        "draw"		=>	intval($_POST["draw"]),
-        "recordsTotal"	=>	intval($db->totalCount),
-        "recordsFiltered"	=>	intval($db->totalCount),
-        "data"		=>	[]
-    );
-
-    $data = array();
-    foreach($products as $toolindex => $pppp){
-
-        $user = get_user($pppp['user']);
-        $post = get_post_by("id", $pppp['post']);
-
-        if( $user && $post ){
-            $userHTML = sprintf('<a href="%s" target="_blank">
-                <span class="name">%s</span>
-                <span class="link">%s</span>
-            </a>', get_admin_url("user/edit/$user->id/"), $user->name, $user->email);
-
-            $postURL = get_unknown_post_url($post->id);
-            $postHTML = sprintf('<a href="%s" target="_blank">
-                <span class="name">%s</span>
-                <span class="link">View Post</span>
-            </a>', $postURL, $post->title);
-
-            $actions = sprintf('<div class="table_actions"><button data-id="%d" class="btn btn-success editcomments"><i class="las la-cog"></i></button>', $pppp['id']);
-            $actions .= sprintf('<button class="btn btn-danger deletedatafromdb" data-from="comments" data-id="%d"><i class="las la-trash"></i></button>', $pppp['id']);
-            $actions .= sprintf('<a class="btn btn-warning viewcomments" href="%s" target="_blank"><i class="las la-eye"></i></a></div>', $postURL . "#comment_" . $pppp['id']);
-
-            $data[] = array(
-                $userHTML,
-                sprintf('<div class="line-5 comment-response">%s</div>', $pppp['message']),
-                $postHTML,
-                $pppp['date'],
-                $actions
-            );
-        }
     }
     
     $output['data'] = $data;

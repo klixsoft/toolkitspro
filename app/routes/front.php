@@ -10,7 +10,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
     $router->group(['before' => 'increateViews'], function(RouteCollector $router){
         $router->group(["prefix" => parse_route_constants("account"), 'before' => 'auth'], function(RouteCollector $router){
             $router->get("/", function(){
-                $metainfo = apply_filters("ast/meta/info", "custom", (object) array(
+                $metainfo = apply_filters("ast/meta/info", "", "custom", (object) array(
                     "title" => "Account - %sitename%",
                     "description" => "Manage your account with subscription plan.",
                     "link" => get_account_url(),
@@ -24,7 +24,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
             });
 
             $router->get("{accountkey}/", function($accountkey){
-                $metainfo = apply_filters("ast/meta/info", "custom", (object) array(
+                $metainfo = apply_filters("ast/meta/info", "", "custom", (object) array(
                     "title" => strtoupper($accountkey) . " - Account - %sitename%",
                     "description" => "Manage your account with subscription plan.",
                     "link" => get_account_url($accountkey . "/"),
@@ -43,7 +43,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
                 require_once TOOLS_PATH . "website-analysis/functions.php";
             }
 
-            $metainfo = apply_filters("ast/meta/info", "front", array());
+            $metainfo = apply_filters("ast/meta/info", "",  "front", array());
             return View::render("dashboard", array(
                 "metainfo" => $metainfo
             ));
@@ -59,7 +59,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
             }
 
             $enableBeadcrum = apply_filters("ast/tool/category/breadcrumb", true);
-            $metainfo = apply_filters("ast/meta/info", "category", $categorydata);
+            $metainfo = apply_filters("ast/meta/info", "", "category", $categorydata);
             return View::render("tool-category", array(
                 "categorydata" => (object) $categorydata,
                 "metainfo" => $metainfo,
@@ -81,7 +81,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
             View::include_tool_functions($post->extra);
 
             $metaInfoBefore = apply_filters("ast/meta/post", $post, false);
-            $metainfo = apply_filters("ast/meta/info", "tool", $metaInfoBefore);
+            $metainfo = apply_filters("ast/meta/info", "", "tool", $metaInfoBefore);
 
             return View::render("single-tool", array(
                 "tooldata" => $post, 
@@ -121,7 +121,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
             );
 
             $metaInfoBefore = apply_filters("ast/meta/post", $post, $extraparams);
-            $metainfo = apply_filters("ast/meta/info", "tool", $metaInfoBefore);
+            $metainfo = apply_filters("ast/meta/info", "", "tool", $metaInfoBefore);
             
             return View::render("single-tool", array(
                 "tooldata" => $post, 
@@ -143,7 +143,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
             redirect_invalid_post($post, "page");
 
             increasePostViews($post->id, $post->views);
-            $metainfo = apply_filters("ast/meta/info", "page", $post);
+            $metainfo = apply_filters("ast/meta/info", "", "page", $post);
             return View::render("single-page", array(
                 "tooldata" => $post,
                 "metainfo" => $metainfo
@@ -151,7 +151,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
         });
 
         function front_router_blog( $page = 1 ){
-            $metainfo = apply_filters("ast/meta/info", "custom", (object) array(
+            $metainfo = apply_filters("ast/meta/info", "", "custom", (object) array(
                 "title" => "Blog - %sitename%",
                 "description" => "Complete SEO tips for optimization of your web content. Learn, implement and rank with our latest seo blog posts.",
                 "link" => get_site_url("blog/")
@@ -171,7 +171,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
         });
 
         $router->get("search/", function( ){
-            $metainfo = apply_filters("ast/meta/info", "custom", (object) array(
+            $metainfo = apply_filters("ast/meta/info", "", "custom", (object) array(
                 "title" => "Search Any Tool - %sitename%",
                 "description" => "Search any seo tools from text content tools, website management tools, domain tools",
                 "link" => get_site_url("search/")
@@ -182,7 +182,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
         });
 
         $router->get("contact/", function( ){
-            $metainfo = apply_filters("ast/meta/info", "custom", (object) array(
+            $metainfo = apply_filters("ast/meta/info", "", "custom", (object) array(
                 "title" => "Contact Us - 24/7 Support - %sitename%",
                 "description" => "Do you have any questions about our tools? Call us now or email us at %adminemail%",
                 "link" => get_full_url(true)
@@ -193,7 +193,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
         });
 
         $router->get("pricing/", function( ){
-            $metainfo = apply_filters("ast/meta/info", "custom", (object) array(
+            $metainfo = apply_filters("ast/meta/info", "", "custom", (object) array(
                 "title" => "Pricing & Plan - %sitename%",
                 "description" => "Discover our competitive pricing options for our range of services. Find the perfect plan to suit your needs on our pricing page.",
                 "link" => get_full_url(true)
@@ -204,7 +204,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
         });
 
         $router->get("payment/received/{orderid}/", function($orderid){
-            $metainfo = apply_filters("ast/meta/info", "custom", (object) array(
+            $metainfo = apply_filters("ast/meta/info", "", "custom", (object) array(
                 "title" => "Payment Received - %sitename%",
                 "description" => "Securely complete your purchase and explore our flexible pricing options on our checkout page.",
                 "link" => get_full_url(true)
@@ -225,7 +225,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
         });
 
         $router->get("payment/checkout/{ordertype}/{orderid}/", function( $ordertype, $orderid ){
-            $metainfo = apply_filters("ast/meta/info", "custom", (object) array(
+            $metainfo = apply_filters("ast/meta/info", "", "custom", (object) array(
                 "title" => "Checkout - %sitename%",
                 "description" => "Securely complete your purchase and explore our flexible pricing options on our checkout page.",
                 "link" => get_full_url(true)
@@ -265,7 +265,7 @@ $router->group(['before' => 'checkMantenance'], function(RouteCollector $router)
             redirect_invalid_post($post, "post");
 
             increasePostViews($post->id, $post->views);
-            $metainfo = apply_filters("ast/meta/info", "post", $post);
+            $metainfo = apply_filters("ast/meta/info", "", "post", $post);
             return View::render("single-post", array(
                 "postdata" => $post,
                 "metainfo" => $metainfo

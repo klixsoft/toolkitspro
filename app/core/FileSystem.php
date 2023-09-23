@@ -86,7 +86,6 @@ class FileSystem
     }
 
     public static function delete($path, $isFolder = false){
-
         if( file_exists( $path ) ){
             if( $isFolder ){
                 return self::deleteFolder($path);

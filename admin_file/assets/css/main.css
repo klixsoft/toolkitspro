@@ -457,3 +457,47 @@ body .pricing_plan_container .card-header,
 body .pricing_plan_container .card-header .nav-tabs{
     border-bottom: none;
 }
+
+.plugin_name{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.plugin_name svg,
+.plugin_name img{
+    width:50px;
+    height:auto;
+}
+
+.plugin_name .info .name{
+    font-size:1.15rem;
+    margin-bottom:5px;
+    font-weight: 500;
+}
+
+.plugin_name .icon{
+    background: rgb(var(--primaryrgb), 0.1);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.layout-fixed:hover .smallsidebar,
+.layout-fixed:not(.sidebar-collapse) .smallsidebar{
+    display:none;
+}
+
+.layout-fixed:hover .fullsidebar,
+.layout-fixed:not(.sidebar-collapse) .fullsidebar{
+    display:block;
+}
+
+/* .layout-fixed:hover .smallsidebar, */
+.layout-fixed.sidebar-collapse .fullsidebar{
+    display:none;
+}
+
+/* .layout-fixed:hover .fullsidebar, */
+.layout-fixed.sidebar-collapse .smallsidebar{
+    display:block;
+}

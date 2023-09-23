@@ -162,10 +162,12 @@ add_action("tkp/svg/icon", function($toolslug, $svgof){
     }
 }, 10, 2);
 
-add_action("ast_front_footer", "toolkitspro_implement_analytics_code");
+add_action("ast_front_header", "toolkitspro_implement_analytics_code");
 function toolkitspro_implement_analytics_code(){
     $settings = get_settings("basic");
-    echo @$settings->ganalytics;
+    if( ! empty(@$settings->ganalytics)){
+        echo sprintf('<script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "%s");</script>', $settings->ganalytics, $settings->ganalytics);
+    }
 }
 
 function toolkitspro_implement_replace_icon_color( $colors, $postfix="" ){

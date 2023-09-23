@@ -11,22 +11,6 @@ $router->group(["prefix" => "admin", 'before' => 'auth'], function(RouteCollecto
             return View::render("dashboard");
         });
     
-        $router->get("analytics/", function(){
-            return View::render("analytics.index");
-        });
-    
-        $router->get("analytics/visitor-log/", function(){
-            return View::render("analytics.visitor-log");
-        });
-    
-        $router->get("analytics/history/", function(){
-            return View::render("analytics.history");
-        });
-    
-        $router->get("analytics/online/", function(){
-            return View::render("analytics.online");
-        });
-    
         $router->get("post/", function(){
             return View::render("post.index");
         });
@@ -114,10 +98,6 @@ $router->group(["prefix" => "admin", 'before' => 'auth'], function(RouteCollecto
                 "pagedata" => $pagedata,
                 "metadata" => get_all_meta("plan", $id)
             ));
-        });
-
-        $router->get("comments/", function(){
-            return View::render("comments");
         });
     
         $router->get("media/", function(){
@@ -285,10 +265,6 @@ $router->group(["prefix" => "admin", 'before' => 'auth'], function(RouteCollecto
 
         $router->get("advance/php-info/", function(){
             return View::render("advance.php-info");
-        });
-
-        $router->get("license/", function(){
-            return View::render("license");
         });
 
         $router->get("tool/add/copy/", function(){

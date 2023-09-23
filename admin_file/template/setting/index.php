@@ -108,12 +108,11 @@ $settings = get_settings($settings_key);
 
 
                             $fields->set(array(
-                                "type" => "textarea",
+                                "type" => "input",
                                 "atts" => array(
                                     "type" => "text",
                                     "class" => "form-control",
-                                    "name" => "ganalytics",
-                                    "rows" => 5
+                                    "name" => "ganalytics"
                                 ),
                                 "after_input" => "Only, Google Analytics (V4) is supported!!!",
                                 "value" => @$settings->ganalytics,

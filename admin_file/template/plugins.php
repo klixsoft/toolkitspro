@@ -1,132 +1,89 @@
 <?php
 
+$activePlugins = (array) get_settings("active_plugins");
 $plugins = array();
 foreach (new DirectoryIterator(PLUGINS_PATH) as $fileInfo) {
     if($fileInfo->isDot()) continue;
 
     if( $fileInfo->isDir() ){
-        $pluginFile = PLUGINS_PATH . $fileInfo->getFilename() . "/plugin.json";
+        $fileName = $fileInfo->getFilename();
+        $pluginFile = PLUGINS_PATH . $fileName . "/plugin.json";
         if( file_exists( $pluginFile ) ){
             $settings = file_get_contents( $pluginFile );
             $settings = json_decode( $settings );
             $settings->isSVG = false;
             if( property_exists( $settings, "icon" ) && !filter_var( $settings->icon, FILTER_VALIDATE_URL ) ){
-                $settings->icon = get_site_url() . "plugins/" . $fileInfo->getFilename() . "/" . $settings->icon;
+                $settings->icon = get_site_url() . "plugins/" . $fileName . "/" . $settings->icon;
                 $settings->isSVG = trim(strtolower(pathinfo($settings->icon, PATHINFO_EXTENSION))) == 'svg';
             }
-            $plugins[ $fileInfo->getFilename() ] = $settings;
+
+            if( isset( $activePlugins[$fileName] ) && isset($activePlugins[$fileName]['status']) ){
+                $settings->status = $activePlugins[$fileName]['status'];
+            }else{
+                $settings->status = "inactive";
+            }
+            
+            $plugins[ $fileName ] = $settings;
         }
     }
 }
-
-// update_admin_settings( "available_plugins", $plugins );
-
 ?>
-
-<style>
-.plugin_lists .profile-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    background: #fff;
-    border-radius: 24px;
-    padding: 25px;
-    position: relative;
-    border: 1px solid #ccc;
-}
-
-.plugin_lists .profile-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 36%;
-    width: 100%;
-    border-radius: 24px 24px 0 0;
-    background-color: var(--primary);
-}
-
-.plugin_lists .image {
-    position: relative;
-    height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    padding: 3px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 4px solid #20cb91;
-    background: #fff;
-}
-
-.plugin_lists .image svg{
-    width:50px;
-    height:50px;
-}
-
-.plugin_lists .image .profile-img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid #fff;
-}
-
-.plugin_lists .profile-card .text-data {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #333;
-}
-
-.plugin_lists .text-data .name {
-    font-size: 22px;
-    font-weight: 500;
-}
-
-.plugin_lists .text-data .job {
-    font-size: 15px;
-    font-weight: 400;
-}
-</style>
 
 <div class="col-12">
     <div class="card bg-white p-4">
         <div class="plugin_lists w-100">
-            <div class="row">
-                <?php foreach($plugins as $pluginName => $plugin): ?>
-                <div class="col-md-3">
-                    <div class="profile-card">
-                        <div class="image">
-                            <?php
-                                if( $settings->isSVG ){
-                                    echo file_get_contents($plugin->icon);
-                                }else{
-                                    echo sprintf('<img src="%s" alt="%s" class="profile-img" />', $plugin->icon, $plugin->name);
-                                }
-                            ?>
-                        </div>
+            <table class="table table-bordered datatable">
+                <thead>
+                    <tr>
+                        <th>Plugin Name</th>
+                        <th>Author</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
-                        <div class="text-data mb-3">
-                            <span class="name"><?php echo $plugin->name; ?></span>
+                <tbody>
+                    <?php 
+                        foreach($plugins as $slug => $plugin){
+                            //plugin card
+                            $image = $plugin->isSVG ? 
+                                file_get_contents($plugin->icon) 
+                            : 
+                                sprintf('<img src="%s" alt="%s" />', $plugin->icon, $plugin->name);
 
-                            <?php if( !empty( $plugin->author ) ): ?>
-                            <span class="job">By: <a href="<?php echo @$plugin->author[0]->url; ?>" target="_blank" rel="noopener noreferrer"><?php echo @$plugin->author[0]->name; ?></a></span>
-                            <?php endif; ?>
+                            if( !str_contains($image, "<img" ) && !str_contains($image, "<svg" ) ){
+                                $image = '';
+                            }
 
-                            <span class="job">Version: <strong><?php echo @$plugin->version; ?></strong></span>
-                        </div>
+                            $pluginName = sprintf('<div class="plugin_name">
+                                <div class="icon">%s</div>
+                                <div class="info">
+                                    <div class="name">%s</div>
+                                    <div class="version">Version: <strong>%s</strong></div>
+                                </div>
+                            </div>', $image, $plugin->name, $plugin->version);
 
-                        <div class="button-row d-flex align-items-center justify-content-between w-100">
-                            <button class="btn btn-warning rounded-0">Update</button>
-                            <button data-plugin="<?php echo $pluginName; ?>" class="btn btn-danger rounded-0 removePluginBtn">Remove</button>
-                        </div>
-                    </div>
-                </div>
-                <?php endforeach; ?>
-            </div>
+                            //plugin author
+                            $authorName = sprintf('<a href="%s" target="_blank">%s</a>', $plugin->author[0]->url, $plugin->author[0]->name);
+
+                            $actions = array();
+                            if( $plugin->status == 'active' ){
+                                $actions[] = sprintf('<button class="btn btn-warning pluginAction" data-action="deactivate" data-plugin="%s">Deactivate</button>', $slug);
+                            }else{
+                                $actions[] = sprintf('<button class="btn btn-success pluginAction" data-action="activate" data-plugin="%s">Activate</button>', $slug);
+                                $actions[] = sprintf('<button class="btn btn-danger pluginAction" data-action="remove" data-plugin="%s">Remove</button>', $slug);
+                            }
+
+                            $actions = apply_filters("tkp/plugins/action", $actions, $plugin);
+                            $actions = implode(" ", $actions);
+                    ?>
+                    <tr>
+                        <td><?php echo $pluginName; ?></td>
+                        <td><?php echo $authorName; ?></td>
+                        <td><?php echo $actions; ?></td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

@@ -4,14 +4,12 @@ use AST\View;
 use AST\Plugin\SEO\MetaInfo;
 
 
-add_filter("ast/meta/info", function($type, $data){
-
+add_filter("ast/meta/info", function($metainfo, $type, $data){
     if( ! has_system_installed() ) return false;
 
     require_once PLUGINS_PATH . "seo/MetaInfo.php";
     $metaInfoObj = new MetaInfo();
     
-    $metainfo = '';
     if( $type == "tool" || $type == "post" || $type == "page" || $type == "article" ){
         $metainfo = $metaInfoObj->post($type, $data)->generate();
     }else if( $type == "front" ){
@@ -23,7 +21,7 @@ add_filter("ast/meta/info", function($type, $data){
     }
 
     return $metainfo;
-}, 1, 2);
+}, 1, 3);
 
 add_action("ast/post/additional/settings", "render_seo_settings_for_html", 100, 2);
 add_action("ast/page/additional/settings", "render_seo_settings_for_html", 100, 2);

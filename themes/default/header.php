@@ -6,16 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- SEO META CONTENT -->
-    <?php if( isset( $metainfo ) ){ echo $metainfo; } ?>
-    <!-- SEO META CONTENT END -->
+    <?php
+        /************************************
+         *  SEO META CONTENT
+         ***********************************/
 
-    <!-- HEADER CONTENT -->
-    <?php do_action("ast_front_header"); ?>
-    <!-- HEADER CONTENT END -->
+        if( isset( $metainfo ) ){ echo $metainfo; }     
+    ?>
+    
+    <?php 
+        /************************************
+         *  HEADER CONTENT
+         ***********************************/
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3914734187955412"
-        crossorigin="anonymous"></script>
+        do_action("ast_front_header"); 
+    ?>
 </head>
 
 <body <?php echo get_body_class(); ?>>
@@ -25,8 +30,9 @@
          *  AFTER IMMEDIATE BODY TAG OPEN
          ***********************************/
         do_action("ast/front/after/body");
-        
+
     ?>
+    
     <header class="navbar navbar-expand-lg navbar-light d-print-none py-2 py-md-1">
         <div class="container-xl">
             <button aria-label="Mobile Menu Toggle Button" class="navbar-toggler collapsed px-0" type="button">
@@ -97,8 +103,7 @@
             </div>
 
             <div class="navbar-collapse collapse" id="navbar-menu" style="">
-                <div
-                    class="d-flex flex-column flex-lg-row flex-fill align-items-stretch align-items-lg-center justify-content-center">
+                <div class="d-flex flex-column flex-lg-row flex-fill align-items-stretch align-items-lg-center justify-content-center">
                     <ul class="navbar-nav">
 
                         <?php

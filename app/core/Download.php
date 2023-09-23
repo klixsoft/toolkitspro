@@ -1,4 +1,11 @@
 <?php
+/**
+ * ToolkitsPRO download access abstraction class.
+ *
+ * @package ToolkitsPRO
+ * @subpackage Download
+ * @since 1.0
+ */
 
 namespace AST;
 

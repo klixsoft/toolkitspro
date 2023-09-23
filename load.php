@@ -107,13 +107,16 @@ $websiteinfo = get_settings("basic");
 require_once INCLUDE_PATH . "ajax.php";
 require_once APP_PATH . "helper/ColumnHelper.php";
 
-
 /*=====================================================
  INCLUDE ALL PLUGIN MAIN FILES                 
 *=====================================================*/
-foreach (glob(PLUGINS_PATH . "*") as $filename){
-    if( is_dir( $filename ) && file_exists( $filename . "/functions.php" ) )
-        require_once $filename . "/functions.php";
+$activePlugins = get_settings("active_plugins", array());
+foreach ($activePlugins as $folderName => $info){
+    if( isset($info['status']) && $info['status'] == 'active' ){
+        $filename = PLUGINS_PATH . $folderName;
+        if( is_dir( $filename ) && file_exists( $filename . "/functions.php" ) )
+            require_once $filename . "/functions.php";
+    }
 }
 
 /*=====================================================

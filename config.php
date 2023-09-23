@@ -14,10 +14,10 @@
 
 
 /** Database Settings */
-define( 'DB_NAME', '{{dbname}}' );
-define( 'DB_USER', '{{dbuser}}' );
-define( 'DB_PASSWORD', '{{dbpass}}' );
-define( 'DB_HOST', '{{dbhost}}' );
+define( 'DB_NAME', 'admin_toolkitspro' );
+define( 'DB_USER', 'admin_toolkitspro' );
+define( 'DB_PASSWORD', 't5gfgWG0hz(cOCF' );
+define( 'DB_HOST', 'localhost' );
 define( 'DB_CHARSET', 'utf8mb4' );
 
 /**
@@ -26,7 +26,7 @@ define( 'DB_CHARSET', 'utf8mb4' );
  * You can have multiple installations in one database if you give each
  * a unique prefix. Only numbers, letters, and underscores please!
  */
-define( 'TABLE_PREFIX', '{{dbprefix}}' );
+define( 'TABLE_PREFIX', 'ast_' );
 
 /**
  * For developers: Toolkitspro debugging mode.
@@ -35,12 +35,10 @@ define( 'TABLE_PREFIX', '{{dbprefix}}' );
  * It is strongly recommended that plugin and theme developers use AST_DEBUG
  * in their development environments.
  */
-define( 'AST_DEBUG', false );
-
+define( 'AST_DEBUG', true );
 
 /** Timezone */
 define( 'TIMEZONE', 'Asia/Kathmandu' );
-
 
 /** Absolute path to the Toolkitspro directory. */
 define( 'ASTROOTPATH', __DIR__ . '/' );

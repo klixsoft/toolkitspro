@@ -1,5 +1,11 @@
 <?php 
-
+/**
+ * You can configure this options from any where using following filter hook
+ * 
+ * @see "ast/routers/config" Hook
+ * 
+ * @package toolkitspro
+ */
 return array(
     "admin" => array(
         "dashboard" => array(
@@ -8,33 +14,6 @@ return array(
             "path" => "dashboard",
             "icon" => "las la-tachometer-alt",
             "child" => array()
-        ),
-        "analytics" => array(
-            "title" => "Analytics",
-            "link" => "analytics/",
-            "icon" => "las la-chart-bar",
-            "child" => array(
-                "overview" => array(
-                    "link" => "analytics/",
-                    "path" => "analytics/index.php",
-                    "title" => "Overview"
-                ),
-                "visitor-log" => array(
-                    "link" => "analytics/visitor-log/",
-                    "path" => "analytics/visitor-log.php",
-                    "title" => "Visitor Log"
-                ),
-                "history" => array(
-                    "link" => "analytics/history/",
-                    "path" => "analytics/history.php",
-                    "title" => "Recent History"
-                ),
-                "online" => array(
-                    "link" => "analytics/online/",
-                    "path" => "analytics/online.php",
-                    "title" => "Online Users"
-                )
-            )
         ),
         "content_header" => array(
             "header" => "Content"
@@ -95,13 +74,6 @@ return array(
                     "title" => "Manage Pages"
                 )
             )
-        ),
-        "comments" => array(
-            "title" => "Comments",
-            "link" => "comments/",
-            "path" => "comments.php",
-            "icon" => "las la-comments",
-            "child" => array()
         ),
         "media" => array(
             "title" => "Media",
@@ -343,13 +315,6 @@ return array(
                     "title" => "PHP Information"
                 )
             )
-        ),
-        "license" => array(
-            "title" => "License",
-            "link" => "license/",
-            "path" => "license.php",
-            "icon" => "las la-key",
-            "child" => array()
         )
     ),
     "auth" => array(

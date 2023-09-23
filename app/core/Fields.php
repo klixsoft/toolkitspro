@@ -3,7 +3,7 @@
  * Core class used to implement Fields.
  *
  * @since 1.0
- * @package AllSmartTools
+ * @package ToolkitsPRO
  * @subpackage Fields
  */
 

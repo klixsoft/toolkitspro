@@ -1,8 +1,8 @@
 <?php
 /**
- * AllSmartTools database access abstraction class.
+ * ToolkitsPRO database access abstraction class.
  *
- * @package AllSmartTools
+ * @package ToolkitsPRO
  * @subpackage Database
  * @since 1.0
  */

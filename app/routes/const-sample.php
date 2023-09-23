@@ -1,8 +1,8 @@
 <?php
 /**
- * The base route configuration for AllSmartTools
+ * The base route configuration for toolkitsPRO
  *
- * @package AllSmartTools
+ * @package toolkitsPRO
  */
 define("ALL_TOOL_CATEGORY_ROUTE", "{{tool_category}}");
 define("TOOL_ROUTE", "{{tool_route}}");
