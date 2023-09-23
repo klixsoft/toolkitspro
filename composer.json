@@ -1,0 +1,36 @@
+{
+    "name": "scthakuri/toolkitspro.com",
+    "version": "1.0",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Suresh Chand",
+            "email": "sureshchand12a@gmail.com"
+        }
+    ],
+    "require": {
+        "filp/whoops": "^2.14",
+        "phpmailer/phpmailer": "^6.7",
+        "io-developer/php-whois": "^4.1",
+        "nesbot/carbon": "^2.66",
+        "guzzlehttp/guzzle": "^7.5",
+        "phroute/phroute": "^2.2",
+        "google/apiclient": "^2.13",
+        "josantonius/mime-type": "^2.0"
+    },
+    "autoload": {
+        "classmap": ["app/core/", "app/helper/"]
+    },
+    "scripts": {
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "Oauth2",
+            "Drive",
+            "YouTube",
+            "YouTubeAnalytics",
+            "YouTubeReporting"
+        ]
+    }
+}

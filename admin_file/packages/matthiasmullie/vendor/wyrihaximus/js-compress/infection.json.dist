@@ -1,0 +1,21 @@
+{
+    "timeout": 120,
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "text": "infection-log.txt"
+    },
+     "mutators": {
+         "@default": true,
+         "LessThan": false,
+         "LessThanNegotiation": false,
+         "Ternary": {
+             "ignore": [
+                 "WyriHaximus\\JsCompress\\Factory::constructSmallest"
+             ]
+         }
+     }
+}

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50" height="50" viewBox="0 0 50 50">
+  <defs>
+    <clipPath id="clip-google">
+      <rect width="50" height="50"/>
+    </clipPath>
+  </defs>
+  <g id="google" clip-path="url(#clip-google)">
+    <g id="Group_21" data-name="Group 21" transform="translate(-604.779 -116.396)">
+      <g id="Group_19" data-name="Group 19">
+        <g id="Group_18" data-name="Group 18">
+          <rect id="Rectangle_6" data-name="Rectangle 6" width="50" height="50" rx="6" transform="translate(604.779 116.396)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_20" data-name="Group 20">
+        <path id="Path_20" data-name="Path 20" d="M621.984,144.317l-.974,3.638-3.563.076a14.027,14.027,0,0,1-.1-13.073h0l3.172.581,1.389,3.152a8.365,8.365,0,0,0,.078,5.626Z" fill="#fbbb00"/>
+        <path id="Path_21" data-name="Path 21" d="M643.534,138.781a13.993,13.993,0,0,1-4.99,13.533h0l-4-.2-.565-3.529a8.343,8.343,0,0,0,3.59-4.261h-7.486v-5.538h13.447Z" fill="#518ef8"/>
+        <path id="Path_22" data-name="Path 22" d="M638.543,152.313h0a14.006,14.006,0,0,1-21.1-4.283l4.537-3.714a8.328,8.328,0,0,0,12,4.263Z" fill="#28b446"/>
+        <path id="Path_23" data-name="Path 23" d="M638.715,130.619l-4.535,3.713a8.326,8.326,0,0,0-12.274,4.359l-4.561-3.733h0a14,14,0,0,1,21.371-4.339Z" fill="#f14336"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,48 @@
+{
+    "name": "wyrihaximus/compress",
+    "description": "Compress marker interface and utility compressors",
+    "keywords": [
+        "compress"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cees-Jan Kiewiet",
+            "email": "ceesjank@gmail.com",
+            "homepage": "http://wyrihaximus.net/"
+        }
+    ],
+    "require": {
+        "php": "^8 || ^7.4",
+        "wyrihaximus/compress-contracts": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.4",
+        "wyrihaximus/compress-test-utilities": "^1.0",
+        "wyrihaximus/test-utilities": "^3.3.1"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.7"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "WyriHaximus\\Compress\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WyriHaximus\\Compress\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "composer normalize"
+        ],
+        "post-update-cmd": [
+            "composer normalize"
+        ]
+    }
+}

@@ -1,0 +1,5 @@
+{
+    "require": {
+        "wyrihaximus/js-compress": "^5.1"
+    }
+}

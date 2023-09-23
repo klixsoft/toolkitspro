@@ -1,0 +1,29 @@
+{
+    "name": "wyrihaximus/compress-contracts",
+    "description": "Compress marker interface",
+    "keywords": [
+        "compress"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cees-Jan Kiewiet",
+            "email": "ceesjank@gmail.com",
+            "homepage": "http://wyrihaximus.net/"
+        }
+    ],
+    "require": {
+        "php": "^8 || ^7.4"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.7"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "WyriHaximus\\Compress\\": "src/"
+        }
+    }
+}

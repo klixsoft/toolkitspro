@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50" height="50" viewBox="0 0 50 50">
+  <defs>
+    <clipPath id="clip-Yandex">
+      <rect width="50" height="50"/>
+    </clipPath>
+  </defs>
+  <g id="Yandex" clip-path="url(#clip-Yandex)">
+    <g id="Group_28" data-name="Group 28" transform="translate(-604.779 -232.993)">
+      <g id="Group_27" data-name="Group 27">
+        <g id="Group_26" data-name="Group 26">
+          <rect id="Rectangle_8" data-name="Rectangle 8" width="50" height="50" rx="6" transform="translate(604.779 232.993)" fill="#fff"/>
+        </g>
+      </g>
+      <path id="Path_25" data-name="Path 25" d="M637.131,243.993h-2.37a.338.338,0,0,0-.371.253c-.03.15-3.554,10.894-3.81,11.789-.182.635-.774,2.871-.916,3.409l-1.226-3.346c-.3-.921-3.152-8.895-3.235-9.214-.046-.175-.127-.392-.434-.392h-2.313a.3.3,0,0,0-.282.4c.059.123,4.238,11.241,5.926,15.488v9.339c0,.17.068.272.238.272h2.191a.243.243,0,0,0,.238-.272v-9.265c1.408-3.931,6.548-17.913,6.6-18.07C637.439,244.2,637.419,243.993,637.131,243.993Z" fill="#f80000"/>
+    </g>
+  </g>
+</svg>

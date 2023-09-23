@@ -1,0 +1,13 @@
+{
+    "name" : "Add Schema",
+    "description" : "Add schema markup to the website",
+    "version" : "1.0",
+    "author" : [
+        {
+            "name" : "Suresh Chand",
+            "url" : "https://sureshchand.com.np",
+            "email" : "scthakuri12a@gmail.com"
+        }
+    ],
+    "icon" : "icon.svg"
+}
