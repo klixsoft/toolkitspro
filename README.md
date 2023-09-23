@@ -26,4 +26,4 @@ To use this script, please follow the [Developer Documentation](https://toolkits
 
 ## Support
 
-For support, email info@toolkitspro.com or join our Slack channel.
+For support, email info@toolkitspro.com
