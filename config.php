@@ -35,7 +35,7 @@ define( 'TABLE_PREFIX', 'ast_' );
  * It is strongly recommended that plugin and theme developers use AST_DEBUG
  * in their development environments.
  */
-define( 'AST_DEBUG', true );
+define( 'AST_DEBUG', false );
 
 /** Timezone */
 define( 'TIMEZONE', 'Asia/Kathmandu' );
